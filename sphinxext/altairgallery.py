@@ -1,6 +1,7 @@
 import hashlib
 import os
 import json
+import random
 import collections
 from operator import itemgetter
 import warnings
@@ -24,7 +25,6 @@ from .utils import (
 from altair.utils.execeval import eval_block
 from tests.examples_arguments_syntax import iter_examples_arguments_syntax
 from tests.examples_methods_syntax import iter_examples_methods_syntax
-import secrets
 
 
 EXAMPLE_MODULE = "altair.examples"
@@ -278,8 +278,8 @@ class AltairMiniGalleryDirective(Directive):
             if indices:
                 examples = [examples[i] for i in indices]
             if shuffle:
-                secrets.SystemRandom().seed(seed)
-                secrets.SystemRandom().shuffle(examples)
+                random.seed(seed)
+                random.shuffle(examples)
             if size:
                 examples = examples[:size]
 
