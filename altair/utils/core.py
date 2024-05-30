@@ -365,7 +365,7 @@ def sanitize_dataframe(df: pd.DataFrame) -> pd.DataFrame:  # noqa: C901
             # https://pandas.io/docs/user_guide/boolean.html
             col = df[col_name].astype(object)
             df[col_name] = col.where(col.notnull(), None)
-        elif dtype_name.startswith("datetime") or dtype_name.startswith("timestamp"):
+        elif dtype_name.startswith(("datetime", "timestamp")):
             # Convert datetimes to strings. This needs to be a full ISO string
             # with time, which is why we cannot use ``col.astype(str)``.
             # This is because Javascript parses date-only times in UTC, but
@@ -431,7 +431,7 @@ def sanitize_arrow_table(pa_table):
     for name in schema.names:
         array = pa_table[name]
         dtype_name = str(schema.field(name).type)
-        if dtype_name.startswith("timestamp") or dtype_name.startswith("date"):
+        if dtype_name.startswith(("timestamp", "date")):
             arrays.append(pc.strftime(array))
         elif dtype_name.startswith("duration"):
             raise ValueError(
